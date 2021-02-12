@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace DesignPatterns.IoC
 {
@@ -14,7 +15,7 @@ namespace DesignPatterns.IoC
         
         public T GetService<T>()
         {
-            var isSuccess = _registeredServices.TryGetValue(typeof(T), out var descriptor);
+            var isSuccess = _registeredServices.TryGetValue(typeof(T), out IServiceDescriptor descriptor);
             if (!isSuccess)
             {
                 throw new ArgumentOutOfRangeException(nameof(T), $"Type {nameof(T)} not registered");
@@ -39,7 +40,17 @@ namespace DesignPatterns.IoC
             }
             else
             {
-                implementation = (T)Activator.CreateInstance(typeof(T));
+                var defaultConstructor = typeof(T).GetConstructors()[0]; 
+                var defaultParams = defaultConstructor.GetParameters();
+                
+                var parameters = defaultParams
+                    .Select(param => typeof(ServiceProvider)
+                                                .GetMethod(nameof(GetService))
+                                                ?.MakeGenericMethod(param.ParameterType)
+                                                .Invoke(this, null))
+                    .ToArray();
+                
+                implementation = (T)defaultConstructor.Invoke(parameters);
             }
 
             if (typedDescriptor.Lifetime == Lifetime.Singleton)
