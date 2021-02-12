@@ -64,35 +64,5 @@ namespace DesignPatterns.IoC
             
             ProviderInstanceFactory = instanceFactory;
         }
-
-        public object GetService(IServiceProvider provider)
-        {
-            if (Instance != null)
-            {
-                return Instance;
-            }
-
-            T implementation;
-            
-            if (InstanceFactory != null)
-            {
-                implementation = InstanceFactory.Invoke();
-            }
-            else if (ProviderInstanceFactory != null)
-            {
-                implementation = ProviderInstanceFactory.Invoke(provider);
-            }
-            else
-            {
-                implementation = (T)Activator.CreateInstance(ServiceType);
-            }
-
-            if (Lifetime == Lifetime.Singleton)
-            {
-                Instance = implementation;
-            }
-            
-            return implementation;
-        }
     }
 }
