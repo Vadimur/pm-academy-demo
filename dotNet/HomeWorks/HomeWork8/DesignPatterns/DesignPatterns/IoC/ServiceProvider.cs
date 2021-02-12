@@ -16,9 +16,11 @@ namespace DesignPatterns.IoC
         public T GetService<T>()
         {
             var isSuccess = _registeredServices.TryGetValue(typeof(T), out IServiceDescriptor descriptor);
+            
             if (!isSuccess)
             {
-                throw new ArgumentOutOfRangeException(nameof(T), $"Type {nameof(T)} not registered");
+                return default;
+               // throw new ArgumentOutOfRangeException(nameof(T), $"Type {nameof(T)} not registered");
             }
             
             var typedDescriptor = (ServiceDescriptor<T>)Convert.ChangeType(descriptor, typeof(ServiceDescriptor<T>));
