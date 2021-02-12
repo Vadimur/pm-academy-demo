@@ -6,9 +6,7 @@ namespace DesignPatterns.IoC
     {
         public Lifetime Lifetime { get; }
         public Type ServiceType { get; }
-        
-        //private readonly T _instance;
-        public T Instance { get; private set; }
+        public T Instance { get; internal set; }
         public  Func<T> InstanceFactory { get; }
         public Func<IServiceProvider, T> ProviderInstanceFactory { get; }
 
