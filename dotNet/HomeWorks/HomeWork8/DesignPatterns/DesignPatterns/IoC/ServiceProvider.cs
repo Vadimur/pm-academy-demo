@@ -20,7 +20,6 @@ namespace DesignPatterns.IoC
             if (!isSuccess)
             {
                 return default;
-               // throw new ArgumentOutOfRangeException(nameof(T), $"Type {nameof(T)} not registered");
             }
             
             var typedDescriptor = (ServiceDescriptor<T>)Convert.ChangeType(descriptor, typeof(ServiceDescriptor<T>));
