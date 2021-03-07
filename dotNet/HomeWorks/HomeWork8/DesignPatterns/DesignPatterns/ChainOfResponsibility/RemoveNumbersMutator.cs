@@ -1,15 +1,14 @@
+using System.Text.RegularExpressions;
+
 namespace DesignPatterns.ChainOfResponsibility
 {
-    public class RemoveNumbersMutator : IStringMutator
+    public class RemoveNumbersMutator : BaseMutator
     {
-        public IStringMutator SetNext(IStringMutator next)
+        public override string Mutate(string str)
         {
-            throw new System.NotImplementedException();
-        }
-
-        public string Mutate(string str)
-        {
-            throw new System.NotImplementedException();
+            str = Regex.Replace(str, @"[\d]", string.Empty);
+            
+            return base.Mutate(str);
         }
     }
 }

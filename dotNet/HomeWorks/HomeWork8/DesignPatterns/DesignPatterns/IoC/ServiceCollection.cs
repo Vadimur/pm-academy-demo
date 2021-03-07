@@ -1,47 +1,59 @@
 using System;
+using System.Collections.Generic;
 
 namespace DesignPatterns.IoC
 {
     public class ServiceCollection : IServiceCollection
     {
+        private readonly Dictionary<Type, IServiceDescriptor> _registeredServices =
+            new Dictionary<Type, IServiceDescriptor>();
+        
         public IServiceCollection AddTransient<T>()
         {
-            throw new NotImplementedException();
+            _registeredServices.TryAdd(typeof(T), new ServiceDescriptor<T>(typeof(T), Lifetime.Transient));
+            return this;
         }
 
         public IServiceCollection AddTransient<T>(Func<T> factory)
         {
-            throw new NotImplementedException();
+            _registeredServices.TryAdd(typeof(T), new ServiceDescriptor<T>(typeof(T), factory, Lifetime.Transient));
+            return this;
         }
 
         public IServiceCollection AddTransient<T>(Func<IServiceProvider, T> factory)
         {
-            throw new NotImplementedException();
+            _registeredServices.TryAdd(typeof(T), new ServiceDescriptor<T>(typeof(T), factory, Lifetime.Transient));
+            return this;
         }
 
         public IServiceCollection AddSingleton<T>()
         {
-            throw new NotImplementedException();
+            _registeredServices.TryAdd(typeof(T), new ServiceDescriptor<T>(typeof(T), Lifetime.Singleton));
+            return this;
         }
 
         public IServiceCollection AddSingleton<T>(T service)
         {
-            throw new NotImplementedException();
+            _registeredServices.TryAdd(typeof(T), new ServiceDescriptor<T>(typeof(T), service));
+            return this;
         }
 
         public IServiceCollection AddSingleton<T>(Func<T> factory)
         {
-            throw new NotImplementedException();
+            _registeredServices.TryAdd(typeof(T), new ServiceDescriptor<T>(typeof(T), factory, Lifetime.Singleton));
+            return this;
         }
 
         public IServiceCollection AddSingleton<T>(Func<IServiceProvider, T> factory)
         {
-            throw new NotImplementedException();
+            
+            _registeredServices.TryAdd(typeof(T), new ServiceDescriptor<T>(typeof(T), factory, Lifetime.Singleton));
+            return this;
         }
 
         public IServiceProvider BuildServiceProvider()
         {
-            throw new NotImplementedException();
+            return new ServiceProvider(_registeredServices);
         }
     }
 }
