@@ -6,6 +6,7 @@ using Microsoft.Extensions.Hosting;
 
 namespace DepsWebApp.Services
 {
+#pragma warning disable CS1591
     public class CacheHostedService : IHostedService
     {
         private readonly IServiceScopeFactory _scopeFactory;
@@ -43,4 +44,5 @@ namespace DepsWebApp.Services
             return Task.CompletedTask;
         }
     }
+#pragma warning restore CS1591
 }

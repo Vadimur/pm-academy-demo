@@ -9,6 +9,7 @@ using Microsoft.Extensions.Options;
 
 namespace DepsWebApp.Services
 {
+#pragma warning disable CS1591
     public class RatesService : IRatesService
     {
         private const string RatesCacheKey = "rates";
@@ -89,4 +90,6 @@ namespace DepsWebApp.Services
             return Task.CompletedTask;
         }
     }
+
+#pragma warning restore CS1591
 }
